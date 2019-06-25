@@ -15,7 +15,7 @@ def get_stats111(text,desired_words):
     stats={w:0 for w in desired_words}
     for word in text.split():
         if word in stats:
-            stats[word]= stats[word]+1 
+            stats[word]= stats[word]+1
     return stats
 
 url="https://www.w3schools.com/python/ref_string_split.asp"
