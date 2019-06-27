@@ -1,6 +1,7 @@
 import requests
 
 from word_count_service.db.db_manager import db
+from word_count_service.user_managment.user_service import user_service
 from word_count_service.word_stats.word_stats_entities import WordStats, WordStatsResult
 
 
@@ -16,7 +17,7 @@ class WordStatsService():
         return result
 
     def save_search_results(self,url, word_stats_result):
-        word_stats=WordStats(url=url)
+        word_stats=WordStats(url=url,user_id=user_service.get_currect_user_id())
         db.session.add(word_stats)
         for key,value in word_stats_result.items():
             result=WordStatsResult(word=key,frequency=value)
@@ -26,6 +27,6 @@ class WordStatsService():
         return  word_stats
 
     def get_all(self):
-        return  WordStats.query.all()
+        return  WordStats.query.filter(WordStats.user_id==user_service.get_currect_user_id())
 
 word_count_service=WordStatsService()

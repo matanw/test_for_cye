@@ -1,5 +1,5 @@
 virtualenv -p python3 venv
-venv/bin/python3 -m pip install flask requests flask_restplus flask-login flask-security flask-sqlalchemy
+venv/bin/python3 -m pip install flask requests flask_restplus flask-login flask-security flask-sqlalchemy flask-jwt-extended passlib
 
 #export FLASK_APP=word_count_service/app.py
 #PYTHONPATH=. venv/bin/python3 -m pip flask run

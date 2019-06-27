@@ -7,6 +7,8 @@ class WordStats(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(255))
     results = db.relationship('WordStatsResult', backref='word_stats', lazy=False)
+    user_id= db.Column(db.Integer, db.ForeignKey('users.id'),
+        nullable=False)
 
 
 class WordStatsResult(db.Model):
