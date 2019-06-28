@@ -2,6 +2,9 @@
 import requests
 res=requests.post("http://localhost:5000/wordsStats/",json={ "url": "https://www.w3schools.com/python/ref_string_split.asp", "desired_words":["can","the","to"]})
 print(res.text)
+
+
+
 res=requests.post("http://localhost:5000/login/",json={ "username": "user1","password":"pass1"})
 print(res.text)
 token1=res.json()["access_token"]

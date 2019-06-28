@@ -1,6 +1,7 @@
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 
+from word_count_service.exception_handling import exception_wrapper
 from word_count_service.word_stats.word_stats_service import word_count_service
 from word_count_service.word_stats.word_stats_transformer import words_stats_transformer
 
@@ -23,6 +24,8 @@ word_stats = word_stats_ns.model('Words Count Requests', {
 
 @word_stats_ns.route('/')
 class WordsCountApi(Resource):
+
+    @exception_wrapper
     @word_stats_ns.doc('fetch words frequencies by url')
     @jwt_required
     @word_stats_ns.expect(word_count_requests)
@@ -33,6 +36,8 @@ class WordsCountApi(Resource):
         saved_entity=word_count_service.save_search_results(payload["url"],stats)
         return words_stats_transformer.entity_to_dto(saved_entity)
 
+
+    @exception_wrapper
     @word_stats_ns.doc('get listl')
     @jwt_required
     @word_stats_ns.marshal_list_with(word_stats)

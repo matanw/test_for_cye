@@ -1,6 +1,7 @@
 from flask import request
 from flask_restplus import Namespace, Resource, fields
 
+from word_count_service.exception_handling import exception_wrapper, ApiException
 from word_count_service.user_managment.user_service import user_service
 from word_count_service.word_stats.word_stats_service import word_count_service
 from word_count_service.word_stats.word_stats_transformer import words_stats_transformer
@@ -22,6 +23,7 @@ login_result= login_ns.model('login', {
 
 @login_ns.route('/')
 class LoginApi(Resource):
+    @exception_wrapper
     @login_ns.doc('fetch words frequencies by url')
     @login_ns.expect(login_request)
     @login_ns.marshal_with(login_result)
@@ -30,6 +32,6 @@ class LoginApi(Resource):
         user_service.verify_captcha(payload["captcha"])
         user=user_service.get_by_username_and_password(payload["username"], payload["password"])
         if user is None:
-            raise  Exception()#todo :handle exception
+            raise  ApiException("Wrong credentials",401)
         access_token=user_service.get_access_token(user)
         return {"access_token":access_token}

@@ -3,6 +3,7 @@ from flask_jwt_extended import get_jwt_identity, create_access_token
 from sqlalchemy import and_
 
 from word_count_service.db.db_manager import db
+from word_count_service.exception_handling import ApiException
 from word_count_service.user_managment.user_entity import User
 import requests
 
@@ -29,7 +30,7 @@ class UserService():
                                                                                      "response": captcha}).json()
         print("Captcha response:",google_response)#todo: add log
         if not google_response["success"]:
-            raise  Exception()#todo: api error
+            raise  ApiException("Invalid captcha",400)
 
 
 
