@@ -31,6 +31,9 @@ def init_app():
     api.add_namespace(word_stats_ns)
     from word_count_service.user_managment.login_api import login_ns
     api.add_namespace(login_ns)
+    from word_count_service.static.static_api import static_ns
+    api.add_namespace(static_ns)
+
     app.run(debug=True)
 
 

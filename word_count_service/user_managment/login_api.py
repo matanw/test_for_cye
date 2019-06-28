@@ -11,7 +11,8 @@ login_ns = Namespace('login', description='login')
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity)
 login_request= login_ns.model('login', {
     'username': fields.String(required=True, description='The username'),
-    'password': fields.String(required=True, description='The password')
+    'password': fields.String(required=True, description='The password'),
+    'captcha': fields.String(required=True, description='captcha')
 })
 
 login_result= login_ns.model('login', {
@@ -26,6 +27,7 @@ class LoginApi(Resource):
     @login_ns.marshal_with(login_result)
     def post(self):
         payload=request.json
+        user_service.verify_captcha(payload["captcha"])
         user=user_service.get_by_username_and_password(payload["username"], payload["password"])
         if user is None:
             raise  Exception()#todo :handle exception

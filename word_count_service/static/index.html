@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script>
+      function do_post_requrest(url,json_data,access_token) {
+        console.log(url+","+json_data)
+        return $.ajax({
+          type: "POST",
+          url: url,
+          data: JSON.stringify(json_data),
+          contentType: "application/json; charset=utf-8",
+          dataType: "json",
+          beforeSend: function(request) {
+                    if (access_token) {
+                      request.setRequestHeader("Authorization", "Bearer "+access_token);
+                  }
+          },
+          async:false
+        }).responseJSON;
+      }
+      function handle_login(captcha) {
+        console.log("handle login")
+        access_token=do_post_requrest("/login/",{"username":"user1","password":"pass1","captcha":captcha},null).access_token;
+        console.log("logged:"+access_token)
+        r=do_post_requrest("/wordsStats/",{ "url": "https://www.w3schools.com/python/ref_string_split.asp", "desired_words":["can","the"]}, access_token);
+        console.log("post stats:")
+        console.log(r)
+      }
+    </script>
+  </head>
+  <body>
+    <form action="?" method="POST">
+      <div class="g-recaptcha" data-sitekey="6LeOH6sUAAAAAKtIESc8iTEK1bSStvnEvNk425K4" data-callback="handle_login"></div>
+      <br/>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>
