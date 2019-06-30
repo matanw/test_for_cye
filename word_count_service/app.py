@@ -7,7 +7,7 @@ api = Api(app)
 def init_app():
     app.config['DEBUG'] = True
     app.config['SECRET_KEY'] = 'super-secret'
-    app.config['SQLALCHEMY_DATABASE_URI'] ="sqlite:///example3.sqlite"
+    app.config['SQLALCHEMY_DATABASE_URI'] ="sqlite:///db.sqlite"
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
     #todo: refactor, split this logic
